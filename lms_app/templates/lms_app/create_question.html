@@ -1,0 +1,49 @@
+{% extends 'lms_app/base.html' %}
+
+{% block content %}
+  <h1 class="text-3xl font-bold mb-4">Add Question to {{ quiz.title }}</h1>
+  
+  <form method="post" class="bg-white p-6 rounded shadow">
+    {% csrf_token %}
+    
+    <div class="mb-4">
+      <label for="{{ question_form.text.id_for_label }}" class="block text-gray-700 font-bold mb-2">Question Text:</label>
+      {{ question_form.text.errors }}
+      {{ question_form.text }}
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">Answers</h2>
+    
+    <div class="space-y-4">
+      {{ answer_formset.management_form }}
+      {% for form in answer_formset %}
+        <div class="bg-gray-100 p-4 rounded shadow-sm">
+          <div class="mb-2">
+            {{ form.text.errors }}
+            <label for="{{ form.text.id_for_label }}" class="block text-gray-700 font-bold mb-2">Answer Text:</label>
+            {{ form.text }}
+          </div>
+          <div class="mb-2">
+            {{ form.is_correct.errors }}
+            <label for="{{ form.is_correct.id_for_label }}" class="block text-gray-700 font-bold mb-2">Is Correct:</label>
+            {{ form.is_correct }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+    >
+      Add Question
+    </button>
+  </form>
+
+  <a
+    href="{% url 'quiz_detail' quiz.id %}"
+    class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
+  >
+    Cancel
+  </a>
+{% endblock %}

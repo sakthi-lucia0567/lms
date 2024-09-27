@@ -1,0 +1,32 @@
+{% extends 'lms_app/base.html' %} {% block content %}
+<h1 class="text-3xl font-bold mb-4">{{ quiz.title }}</h1>
+<p class="mb-4">Course: {{ quiz.course.title }}</p>
+
+{% if user.is_teacher %}
+<h2 class="text-2xl font-bold mt-8 mb-4">Questions</h2>
+<div class="space-y-4">
+  {% for question in quiz.questions.all %}
+  <div class="bg-white p-4 rounded shadow">
+    <p class="font-bold">{{ forloop.counter }}. {{ question.text }}</p>
+    <ul class="list-disc list-inside ml-4">
+      {% for answer in question.answers.all %}
+      <li>{{ answer.text }} {% if answer.is_correct %}(Correct){% endif %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% empty %}
+  <p>No questions added to this quiz yet.</p>
+  {% endfor %}
+</div>
+<a
+  href="{% url 'create_question' quiz.id %}"
+  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block"
+  >Add Question</a
+>
+{% else %}
+<a
+  href="{% url 'take_quiz' quiz.id %}"
+  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block"
+  >Take Quiz</a
+>
+{% endif %} {% endblock %}

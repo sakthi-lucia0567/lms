@@ -1,0 +1,21 @@
+{% extends 'lms_app/base.html' %}
+
+{% block content %}
+  <h1 class="text-3xl font-bold mb-6">{{ quiz.title }}</h1>
+
+  <form method="post" class="space-y-6">
+    {% csrf_token %}
+    {% for question in questions %}
+      <div class="bg-white p-4 rounded shadow">
+        <p class="font-bold mb-2">{{ forloop.counter }}. {{ question.text }}</p>
+        {% for answer in question.answers.all %}
+          <div class="mb-2">
+            <input type="radio" name="question_{{ question.id }}" id="answer_{{ answer.id }}" value="{{ answer.id }}" required>
+            <label for="answer_{{ answer.id }}">{{ answer.text }}</label>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit Quiz</button>
+  </form>
+{% endblock %}

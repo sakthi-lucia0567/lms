@@ -1,0 +1,35 @@
+{% extends 'lms_app/base.html' %}
+
+{% block content %}
+  <h1 class="text-3xl font-bold mb-6">Student Dashboard</h1>
+
+  <h2 class="text-2xl font-bold mb-4">Your Enrolled Courses</h2>
+  {% if enrolled_courses %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for course in enrolled_courses %}
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-xl font-bold mb-2">{{ course.title }}</h3>
+          <p class="text-gray-600 mb-4">{{ course.description|truncatewords:20 }}</p>
+          <a href="{% url 'student_course_detail' course.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Course</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-600 mb-6">You are not enrolled in any courses yet.</p>
+  {% endif %}
+
+  <h2 class="text-2xl font-bold mt-8 mb-4">Available Courses</h2>
+  {% if available_courses %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for course in available_courses %}
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-xl font-bold mb-2">{{ course.title }}</h3>
+          <p class="text-gray-600 mb-4">{{ course.description|truncatewords:20 }}</p>
+          <a href="{% url 'join_course' course.id %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Join Course</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-600">No available courses at the moment.</p>
+  {% endif %}
+{% endblock %}

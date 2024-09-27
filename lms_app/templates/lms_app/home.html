@@ -1,0 +1,31 @@
+{% extends 'lms_app/base.html' %} {% block content %}
+<h1 class="text-3xl font-bold mb-4">Welcome to Mini LMS</h1>
+<p class="mb-4">
+  This is a simple Learning Management System for teachers and students.
+</p>
+{% if user.is_authenticated %} {% if user.is_teacher %}
+<a
+  href="{% url 'teacher_dashboard' %}"
+  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+  >Go to Teacher Dashboard</a
+>
+{% elif user.is_student %}
+<a
+  href="{% url 'student_dashboard' %}"
+  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+  >Go to Student Dashboard</a
+>
+{% endif %} {% else %}
+<div class="flex space-x-4">
+  <a
+    href="{% url 'teacher_signup' %}"
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >Teacher Signup</a
+  >
+  <a
+    href="{% url 'student_signup' %}"
+    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+    >Student Signup</a
+  >
+</div>
+{% endif %} {% endblock %}
